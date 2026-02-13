@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Lifeline ❤️</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --pink: #ff4d8d;
+            --soft-pink: #fce4ec;
+            --dark-pink: #d81b60;
+        }
+
+        body {
+            background-color: var(--soft-pink);
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .hidden { display: none; }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        h1, h2, h3 { color: var(--dark-pink); }
+
+        .main-gif { width: 180px; margin-bottom: 20px; border-radius: 10px; }
+
+        /* Buttons */
+        .btn-group { 
+            margin-top: 30px; 
+            position: relative; 
+            height: 60px; 
+            display: flex; 
+            justify-content: center; 
+            gap: 20px; 
+        }
+
+        button {
+            background: var(--pink);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            z-index: 10;
+        }
+
+        #no-btn {
+            background: #bbb;
+            position: relative;
+        }
+
+        /* Gifts Grid */
+        .gift-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .gift-box {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            border: 2px dashed var(--pink);
+            transition: 0.3s;
+        }
+
+        .gift-box:hover { transform: scale(1.05); background: #fff1f6; }
+
+        /* Playlist */
+        .song-list { list-style: none; padding: 0; text-align: left; }
+        .song-list li {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+        .song-list li:hover { color: var(--pink); background: #fafafa; }
+
+        /* Letter */
+        .letter-card { background: #fffdf5; text-align: left; border: 1px solid #f3e5ab; }
+        .letter-body { font-family: 'Georgia', serif; font-style: italic; color: #444; line-height: 1.8; }
+
+        /* Gallery */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .photo-frame {
+            aspect-ratio: 1;
+            background: #eee;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid white;
+        }
+        .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="proposal-screen">
+        <div class="card">
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHIybHllbmx4eGZqNTRpZ25oamZ4eXF4eXF4eXF4eXF4eXF4eXF4JnB2PTEmY3Q9cw/cLS1cfxvGOPVpf9g3y/giphy.gif" alt="Cute Bear" class="main-gif">
+            <h1>Ammu, <br> Will you be my Valentine? ❤️</h1>
+            <div class="btn-group">
+                <button id="yes-btn" onclick="showScreen('success-screen')">YES! ❤️</button>
+                <button id="no-btn" onmouseover="moveNoButton()">NO 💔</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container hidden" id="success-screen">
+        <div class="card">
+            <h1>YAYYYY!!! 🎉</h1>
+            <p>That's the best decision you've ever made ❤️</p>
+            <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExamg0OHc3bHp4ZmViN2l6MWtzYnN3cjIybW93dWZtNDQ5NDNjOWM3MiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/IzXiddo2twMmdmU8Lv/giphy.gif" alt="Happy Bears" class="main-gif">
+            <br>
+            <button onclick="showScreen('gifts-menu')">Open your gifts! 🎁</button>
+        </div>
+    </div>
+
+    <div class="container hidden" id="gifts-menu">
+        <h2 class="title">Your Valentine Gifts 🎁</h2>
+        <div class="gift-grid">
+            <div class="gift-box" onclick="showScreen('music-screen')">
+                <div style="font-size: 2rem;">🎵</div>
+                <p>Our Playlist</p>
+            </div>
+            <div class="gift-box" onclick="showScreen('letter-screen')">
+                <div style="font-size: 2rem;">💌</div>
+                <p>Love Letter</p>
+            </div>
+            <div class="gift-box" onclick="showScreen('gallery-screen')" style="grid-column: span 2;">
+                <div style="font-size: 2rem;">📸</div>
+                <p>Our Memories</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="container hidden" id="music-screen">
+        <div class="card">
+            <h3>Our Love Sounds Like This 🎵</h3>
+            <p id="current-song" style="color: var(--pink); font-weight: bold;">Select a song...</p>
+            <audio id="current-song controls">
+            
+            </audio>
+            <ul class="song-list">
+                <li onclick="playSong('Eppadi.mp3')">  Eppadi vandhayo</li>
+                <li onclick="playSong('Agasatha - Cuckoo')">Agasatha</li>
+                <li onclick="playSong('Aasa Orave - Lubber Pandhu')">Aasa Orave</li>
+                <li onclick="playSong('First-Sight.mp3')">here</li>
+            </ul>
+            <button onclick="showScreen('gifts-menu')">Back</button>
+        </div>
+    </div> -->
+    <div class="container hidden" id="music-screen">
+        <div class="card">
+          <h3>Our Love Sounds Like This 🎵</h3>
+      
+          <p id="nowPlaying" style="color: var(--pink); font-weight: bold;">
+            Select a song...
+          </p>
+      
+          <audio id="audioPlayer"></audio>
+      
+          <ul class="song-list">
+            <li onclick="playSong('Eppadi.mp3')">Eppadi Vandhayo</li>
+            <li onclick="playSong('Partha-Muthal.mp3')">Partha Muthal</li>
+            <!-- <li onclick="playSong('Aasa Orave - Lubber Pandhu.mp3')">Aasa Orave</li> -->
+            <li onclick="playSong('First-Sight.mp3')">First Sight</li>
+          </ul>
+      
+          <button onclick="showScreen('gifts-menu')">Back</button>
+        </div>
+      </div>
+
+    <div class="container hidden" id="letter-screen">
+        <div class="card letter-card">
+            <h3>My Dearest Thangame💚,</h3>
+            <div class="letter-body">
+                <p>Happy Valentine's day Ammu....</p>
+                <p>You are my <b> Boon</b>...You're a greatest <b> Magic </b>that ever happened in my life...Thank you for being my Everthing..! </p>
+                <p>You are my favorite part of every day.</p>
+                <p><strong>Forever yours, <br> Jillu💚🖤</strong></p>
+            </div>
+            <button onclick="showScreen('gifts-menu')">Back</button>
+        </div>
+    </div>
+
+    <div class="container hidden" id="gallery-screen">
+        <h2 class="title">Every Moment With You! 📸</h2>
+        <div class="gallery-grid">
+            <div class="photo-frame"><img src="1.jpg" alt="Memory 1"></div>
+            <div class="photo-frame"><img src="2.jpg" alt="Memory 2"></div>
+            <div class="photo-frame"><img src="3.jpg" alt="Memory 3"></div>
+            <div class="photo-frame"><img src="4.jpg" alt="Memory 4"></div>
+        </div>
+        <br>
+        <button onclick="showScreen('gifts-menu')">Back</button>
+    </div>
+
+    <script>
+        function showScreen(screenId) {
+            const screens = document.querySelectorAll('.container');
+            screens.forEach(s => s.classList.add('hidden'));
+            document.getElementById(screenId).classList.remove('hidden');
+
+            if (screenId === 'success-screen') {
+                launchConfetti();
+            }
+        }
+
+        function moveNoButton() {
+            const btn = document.getElementById('no-btn');
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+            btn.style.position = 'fixed';
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+        }
+
+        // function playSong(songName) {
+        //     document.getElementById('current-song').innerText = "Now Playing: " + songName;
+        //     const audio=document.getElementById("current-song");
+        //     audio.src=songName;
+        //     audio.play();
+        // }
+        
+function playSong(songPath) {
+  const audio = document.getElementById("audioPlayer");
+  const text = document.getElementById("nowPlaying");
+
+  audio.src = songPath;
+  audio.play();
+
+  text.innerText = "Now Playing: " + songPath;
+}
+
+
+        function launchConfetti() {
+            var duration = 3 * 1000;
+            var end = Date.now() + duration;
+
+            (function frame() {
+                confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ff4d8d', '#ffffff'] });
+                confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ff4d8d', '#ffffff'] });
+                if (Date.now() < end) { requestAnimationFrame(frame); }
+            }());
+        }
+    </script>
+</body>
+</html>
